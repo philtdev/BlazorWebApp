@@ -9,6 +9,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BlazorWebApp.Application\BlazorWebApp.Application.csproj" />
     <ProjectReference Include="..\BlazorWebApp.WebUI.Client\BlazorWebApp.WebUI.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.*" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.*" />
