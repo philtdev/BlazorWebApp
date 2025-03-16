@@ -1,3 +1,4 @@
+using BlazorWebApp.Application;
 using BlazorWebApp.WebUI.Server.Components;
 using BlazorWebApp.WebUI.Server.Components.Account;
 using BlazorWebApp.WebUI.Server.Data;
@@ -16,6 +17,8 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
+
+builder.Services.AddApplication();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
