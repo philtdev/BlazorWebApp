@@ -1,0 +1,39 @@
+﻿@page "/articles"
+
+@inject IArticleService ArticleService
+
+<PageTitle>Articles</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Articles</MudText>
+
+@if (articles.Count == 0)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    foreach (var article in articles)
+    {
+        <MudText Typo="Typo.h4" GutterBottom="true">@article.Title</MudText>
+        <MudText Typo="Typo.body1" GutterBottom="true">@article.Content</MudText>
+        <MudText Typo="Typo.caption" GutterBottom="true">@article.DatePublished</MudText>
+    }
+}
+
+@code {
+    private List<Article> articles = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+
+        var result = ArticleService.GetArticles();
+
+        if (result is not null)
+        {
+            articles = result;
+        }
+
+        await base.OnInitializedAsync();
+    }
+}
