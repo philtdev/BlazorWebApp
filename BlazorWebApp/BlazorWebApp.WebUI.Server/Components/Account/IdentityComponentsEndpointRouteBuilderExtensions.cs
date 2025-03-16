@@ -23,7 +23,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
         RouteGroupBuilder accountGroup = endpoints.MapGroup("/Account");
 
-        _ = accountGroup.MapPost("/PerformExternalLogin", (
+        accountGroup.MapPost("/PerformExternalLogin", (
             HttpContext context,
             [FromServices] SignInManager<ApplicationUser> signInManager,
             [FromForm] string provider,
@@ -42,7 +42,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
             return TypedResults.Challenge(properties, [provider]);
         });
 
-        _ = accountGroup.MapPost("/Logout", async (
+        accountGroup.MapPost("/Logout", async (
             ClaimsPrincipal user,
             [FromServices] SignInManager<ApplicationUser> signInManager,
             [FromForm] string returnUrl) =>
@@ -53,7 +53,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
         RouteGroupBuilder manageGroup = accountGroup.MapGroup("/Manage").RequireAuthorization();
 
-        _ = manageGroup.MapPost("/LinkExternalLogin", async (
+        manageGroup.MapPost("/LinkExternalLogin", async (
             HttpContext context,
             [FromServices] SignInManager<ApplicationUser> signInManager,
             [FromForm] string provider) =>
@@ -73,7 +73,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
         ILoggerFactory loggerFactory = endpoints.ServiceProvider.GetRequiredService<ILoggerFactory>();
         ILogger downloadLogger = loggerFactory.CreateLogger("DownloadPersonalData");
 
-        _ = manageGroup.MapPost("/DownloadPersonalData", async (
+        manageGroup.MapPost("/DownloadPersonalData", async (
             HttpContext context,
             [FromServices] UserManager<ApplicationUser> userManager,
             [FromServices] AuthenticationStateProvider authenticationStateProvider) =>
@@ -105,7 +105,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
             personalData.Add("Authenticator Key", (await userManager.GetAuthenticatorKeyAsync(user))!);
             byte[] fileBytes = JsonSerializer.SerializeToUtf8Bytes(personalData);
 
-            _ = context.Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
+            context.Response.Headers.TryAdd("Content-Disposition", "attachment; filename=PersonalData.json");
             return TypedResults.File(fileBytes, contentType: "application/json", fileDownloadName: "PersonalData.json");
         });
 
